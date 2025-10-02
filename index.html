@@ -124,5 +124,41 @@
       setTimeout(() => bark.remove(), 1200);
     }
   </script>
+  <!-- AUDIO: place bark.mp3 next to index.html -->
+  <audio id="barkSound" preload="auto">
+    <source src="https://soundimage.org/wp-content/uploads/2023/05/Small-Dog-Barking.mp3" type="audio/mpeg" />
+    <source src="bark.ogg" type="audio/ogg" />
+  </audio>
+
+  <!-- JS for barking effect -->
+  <script>
+    function playBark() {
+      const el = document.getElementById('barkSound');
+      if (!el) return;
+      try {
+        el.currentTime = 0; // restart if spam-clicked
+        el.volume = 0.85;
+        el.play();
+      } catch (e) {
+        // ignore if autoplay policies block it
+      }
+    }
+
+    function addBark() {
+      const area = document.getElementById('barkArea');
+      const bark = document.createElement('div');
+      bark.textContent = '🐶';
+      bark.style.position = 'absolute';
+      bark.style.left = Math.random() * window.innerWidth + 'px';
+      bark.style.top = Math.random() * window.innerHeight + 'px';
+      bark.style.fontSize = '2rem';
+      bark.style.animation = 'floatUp 1.2s ease-out forwards';
+      area.appendChild(bark);
+      setTimeout(() => bark.remove(), 1200);
+
+      // play sound on user gesture
+      playBark();
+    }
+  </script>
 </body>
 </html>
