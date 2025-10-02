@@ -1,0 +1,128 @@
+import React, { useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
+
+// Single-file React landing page for the BARK memecoin
+// - TailwindCSS classes for styling
+// - Inline SVG logo (vector, editable colors/size)
+// - Added OG meta tags via react-helmet
+
+export default function BarkLanding() {
+  const [barks, setBarks] = useState([]);
+  const barkAreaRef = useRef(null);
+
+  const addBark = () => {
+    const area = barkAreaRef.current;
+    if (!area) return;
+    const rect = area.getBoundingClientRect();
+    const x = Math.random() * rect.width;
+    const y = Math.random() * rect.height;
+    const id = Math.random().toString(36).slice(2);
+    setBarks((prev) => [...prev, { id, x, y }]);
+    setTimeout(() => setBarks((prev) => prev.filter((b) => b.id !== id)), 1500);
+  };
+
+  const Logo = ({ className = "w-16 h-16" }) => (
+    <svg
+      className={className}
+      viewBox="0 0 240 240"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="BARK logo"
+    >
+      <circle cx="120" cy="120" r="110" fill="#111827" />
+      <circle cx="120" cy="120" r="106" fill="#0ea5e9" opacity="0.15" />
+      <g transform="translate(55,50)">
+        <path d="M20 20 C5 5, 5 45, 20 40" fill="#0ea5e9" />
+        <path d="M110 20 C125 5, 125 45, 110 40" fill="#0ea5e9" />
+        <ellipse cx="65" cy="70" rx="52" ry="48" fill="#fef3c7" />
+        <circle cx="47" cy="63" r="7" fill="#0f172a" />
+        <circle cx="83" cy="63" r="7" fill="#0f172a" />
+        <ellipse cx="65" cy="80" rx="9" ry="6" fill="#0f172a" />
+        <path d="M55 95 q10 10 20 0 v14 q-10 8 -20 0 z" fill="#ef4444" />
+        <path d="M125 78 l20 -6" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
+        <path d="M125 90 l30 -2" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
+        <path d="M125 102 l24 10" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <g transform="translate(120,205)">
+        <text
+          x="0"
+          y="0"
+          textAnchor="middle"
+          fontFamily="Impact, Inter, ui-sans-serif"
+          fontSize="44"
+          fill="#f8fafc"
+          style={{ letterSpacing: 2 }}
+        >
+          BARK
+        </text>
+      </g>
+    </svg>
+  );
+
+  const Section = ({ id, title, children }) => (
+    <section id={id} className="py-16 lg:py-24">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50">{title}</h2>
+        <div className="mt-6 text-slate-300 leading-relaxed">{children}</div>
+      </div>
+    </section>
+  );
+
+  const Stat = ({ label, value }) => (
+    <div className="p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
+      <div className="text-2xl font-bold text-slate-50">{value}</div>
+      <div className="text-sm text-slate-400 mt-1">{label}</div>
+    </div>
+  );
+
+  const RoadItem = ({ phase, title, bullets }) => (
+    <div className="p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
+      <div className="text-sm uppercase tracking-widest text-sky-300/80 font-semibold">{phase}</div>
+      <h4 className="mt-2 text-xl font-bold text-slate-50">{title}</h4>
+      <ul className="mt-3 list-disc list-inside space-y-1 text-slate-300">
+        {bullets.map((b, i) => (
+          <li key={i}>{b}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const HowStep = ({ step, title, text }) => (
+    <div className="flex items-start gap-4 p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
+      <div className="w-10 h-10 flex items-center justify-center rounded-full bg-sky-400/20 text-sky-300 font-extrabold">
+        {step}
+      </div>
+      <div>
+        <div className="font-semibold text-slate-50">{title}</div>
+        <div className="text-slate-300 text-sm mt-1">{text}</div>
+      </div>
+    </div>
+  );
+
+  const tokenomics = useMemo(
+    () => [
+      { label: "Total Supply", value: "1,000,000,000 $BARK" },
+      { label: "Liquidity (Pump.fun)", value: "50%" },
+      { label: "Community & Giveaways", value: "25%" },
+      { label: "Marketing (Memes & Woofs)", value: "15%" },
+      { label: "Dev Wallet (Growth)", value: "10%" },
+    ],
+    []
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-300 overflow-x-hidden">
+      <Helmet>
+        <title>$BARK – The Loudest Memecoin on Solana</title>
+        <meta property="og:title" content="Welcome to $BARK – The Loudest Memecoin on Solana" />
+        <meta property="og:description" content="Woof your way to the moon with $BARK on Pump.fun" />
+        <meta property="og:image" content="/bark-og.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourdomain.com" />
+      </Helmet>
+
+      {/* NAV */}
+      {/* ... rest of the site unchanged ... */}
+    </div>
+  );
+}
