@@ -1,128 +1,123 @@
-import React, { useMemo, useRef, useState } from "react";
-import { Helmet } from "react-helmet";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$BARK – The Loudest Memecoin on Solana</title>
 
-// Single-file React landing page for the BARK memecoin
-// - TailwindCSS classes for styling
-// - Inline SVG logo (vector, editable colors/size)
-// - Added OG meta tags via react-helmet
+  <!-- OG Meta -->
+  <meta property="og:title" content="Welcome to $BARK – The Loudest Memecoin on Solana" />
+  <meta property="og:description" content="Woof your way to the moon with $BARK on Pump.fun" />
+  <meta property="og:image" content="index.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com" />
 
-export default function BarkLanding() {
-  const [barks, setBarks] = useState([]);
-  const barkAreaRef = useRef(null);
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes floatUp { 
+      0% { transform: translateY(0); opacity: 1 } 
+      100% { transform: translateY(-60px); opacity: 0 } 
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
 
-  const addBark = () => {
-    const area = barkAreaRef.current;
-    if (!area) return;
-    const rect = area.getBoundingClientRect();
-    const x = Math.random() * rect.width;
-    const y = Math.random() * rect.height;
-    const id = Math.random().toString(36).slice(2);
-    setBarks((prev) => [...prev, { id, x, y }]);
-    setTimeout(() => setBarks((prev) => prev.filter((b) => b.id !== id)), 1500);
-  };
+  <!-- NAV -->
+  <header class="sticky top-0 bg-slate-900/80 backdrop-blur border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="text-white font-bold text-xl">$BARK</div>
+      <a href="https://pump.fun" target="_blank"
+        class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-bold">
+        Buy on Pump.fun
+      </a>
+    </div>
+  </header>
 
-  const Logo = ({ className = "w-16 h-16" }) => (
-    <svg
-      className={className}
-      viewBox="0 0 240 240"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="BARK logo"
-    >
-      <circle cx="120" cy="120" r="110" fill="#111827" />
-      <circle cx="120" cy="120" r="106" fill="#0ea5e9" opacity="0.15" />
-      <g transform="translate(55,50)">
-        <path d="M20 20 C5 5, 5 45, 20 40" fill="#0ea5e9" />
-        <path d="M110 20 C125 5, 125 45, 110 40" fill="#0ea5e9" />
-        <ellipse cx="65" cy="70" rx="52" ry="48" fill="#fef3c7" />
-        <circle cx="47" cy="63" r="7" fill="#0f172a" />
-        <circle cx="83" cy="63" r="7" fill="#0f172a" />
-        <ellipse cx="65" cy="80" rx="9" ry="6" fill="#0f172a" />
-        <path d="M55 95 q10 10 20 0 v14 q-10 8 -20 0 z" fill="#ef4444" />
-        <path d="M125 78 l20 -6" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
-        <path d="M125 90 l30 -2" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
-        <path d="M125 102 l24 10" stroke="#0ea5e9" strokeWidth="6" strokeLinecap="round" />
-      </g>
-      <g transform="translate(120,205)">
-        <text
-          x="0"
-          y="0"
-          textAnchor="middle"
-          fontFamily="Impact, Inter, ui-sans-serif"
-          fontSize="44"
-          fill="#f8fafc"
-          style={{ letterSpacing: 2 }}
-        >
-          BARK
-        </text>
-      </g>
-    </svg>
-  );
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 py-20 text-center relative">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-white">
+      Woof your way <span class="text-sky-400">to the moon</span> with $BARK
+    </h1>
+    <p class="mt-4 text-lg text-slate-300 max-w-2xl mx-auto">
+      A playful, community-first token where every bark is a buy and every howl fuels the hype.
+    </p>
+    <div class="mt-6 flex flex-wrap justify-center gap-3">
+      <a href="https://pump.fun" target="_blank"
+        class="px-6 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold">
+        Buy on Pump.fun
+      </a>
+      <button onclick="addBark()"
+        class="px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold">
+        BARK!
+      </button>
+    </div>
+    <!-- Bark emojis -->
+    <div id="barkArea" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+  </section>
 
-  const Section = ({ id, title, children }) => (
-    <section id={id} className="py-16 lg:py-24">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50">{title}</h2>
-        <div className="mt-6 text-slate-300 leading-relaxed">{children}</div>
+  <!-- TOKENOMICS -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-white mb-6">Tokenomics</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="p-4 rounded-xl bg-slate-800">Total Supply<br><b>1,000,000,000</b></div>
+      <div class="p-4 rounded-xl bg-slate-800">Liquidity<br><b>50%</b></div>
+      <div class="p-4 rounded-xl bg-slate-800">Community<br><b>25%</b></div>
+      <div class="p-4 rounded-xl bg-slate-800">Marketing<br><b>15%</b></div>
+      <div class="p-4 rounded-xl bg-slate-800">Dev Wallet<br><b>10%</b></div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-white mb-6">Roadmap</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-6 bg-slate-800 rounded-xl">
+        <h3 class="font-bold">Phase 1: Woof</h3>
+        <ul class="list-disc list-inside text-slate-300">
+          <li>Launch on Pump.fun</li>
+          <li>Logo + site + socials</li>
+          <li>First 1,000 holders</li>
+        </ul>
       </div>
-    </section>
-  );
-
-  const Stat = ({ label, value }) => (
-    <div className="p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
-      <div className="text-2xl font-bold text-slate-50">{value}</div>
-      <div className="text-sm text-slate-400 mt-1">{label}</div>
-    </div>
-  );
-
-  const RoadItem = ({ phase, title, bullets }) => (
-    <div className="p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
-      <div className="text-sm uppercase tracking-widest text-sky-300/80 font-semibold">{phase}</div>
-      <h4 className="mt-2 text-xl font-bold text-slate-50">{title}</h4>
-      <ul className="mt-3 list-disc list-inside space-y-1 text-slate-300">
-        {bullets.map((b, i) => (
-          <li key={i}>{b}</li>
-        ))}
-      </ul>
-    </div>
-  );
-
-  const HowStep = ({ step, title, text }) => (
-    <div className="flex items-start gap-4 p-6 rounded-2xl bg-slate-800/60 ring-1 ring-white/10">
-      <div className="w-10 h-10 flex items-center justify-center rounded-full bg-sky-400/20 text-sky-300 font-extrabold">
-        {step}
+      <div class="p-6 bg-slate-800 rounded-xl">
+        <h3 class="font-bold">Phase 2: Bark Louder</h3>
+        <ul class="list-disc list-inside text-slate-300">
+          <li>Meme challenges</li>
+          <li>Influencer barks</li>
+          <li>Telegram raids</li>
+        </ul>
       </div>
-      <div>
-        <div className="font-semibold text-slate-50">{title}</div>
-        <div className="text-slate-300 text-sm mt-1">{text}</div>
+      <div class="p-6 bg-slate-800 rounded-xl">
+        <h3 class="font-bold">Phase 3: Global Dog Park</h3>
+        <ul class="list-disc list-inside text-slate-300">
+          <li>Cross-community collabs</li>
+          <li>IRL bark meetups</li>
+          <li>Charity donations</li>
+        </ul>
       </div>
     </div>
-  );
+  </section>
 
-  const tokenomics = useMemo(
-    () => [
-      { label: "Total Supply", value: "1,000,000,000 $BARK" },
-      { label: "Liquidity (Pump.fun)", value: "50%" },
-      { label: "Community & Giveaways", value: "25%" },
-      { label: "Marketing (Memes & Woofs)", value: "15%" },
-      { label: "Dev Wallet (Growth)", value: "10%" },
-    ],
-    []
-  );
+  <!-- FOOTER -->
+  <footer class="py-6 text-center text-slate-500 text-sm">
+    © 2025 $BARK • Meme only. No promises.
+  </footer>
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-300 overflow-x-hidden">
-      <Helmet>
-        <title>$BARK – The Loudest Memecoin on Solana</title>
-        <meta property="og:title" content="Welcome to $BARK – The Loudest Memecoin on Solana" />
-        <meta property="og:description" content="Woof your way to the moon with $BARK on Pump.fun" />
-        <meta property="og:image" content="/bark-og.png" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com" />
-      </Helmet>
-
-      {/* NAV */}
-      {/* ... rest of the site unchanged ... */}
-    </div>
-  );
-}
+  <!-- JS for barking effect -->
+  <script>
+    function addBark() {
+      const area = document.getElementById('barkArea');
+      const bark = document.createElement('div');
+      bark.textContent = '🐶';
+      bark.style.position = 'absolute';
+      bark.style.left = Math.random() * window.innerWidth + 'px';
+      bark.style.top = Math.random() * window.innerHeight + 'px';
+      bark.style.fontSize = '2rem';
+      bark.style.animation = 'floatUp 1.2s ease-out forwards';
+      area.appendChild(bark);
+      setTimeout(() => bark.remove(), 1200);
+    }
+  </script>
+</body>
+</html>
