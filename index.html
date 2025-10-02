@@ -30,7 +30,7 @@
   <header class="sticky top-0 bg-slate-900/80 backdrop-blur border-b border-white/10">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="text-white font-bold text-xl">$BARK</div>
-      <a href="https://pump.fun" target="_blank"
+      <a href="https://pump.fun/coin/EGPX2CdYXsaUeKpuQcFkSL63RhWtWREajx5RoPRfpump" target="_blank"
         class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-bold">
         Buy on Pump.fun
       </a>
@@ -48,7 +48,7 @@
     <!-- Show OG image on the site -->
     <img src="index.png" alt="$BARK OG" class="mx-auto mt-8 w-72 rounded-2xl border border-white/10">
     <div class="mt-6 flex flex-wrap justify-center gap-3">
-      <a href="https://pump.fun" target="_blank"
+      <a href="https://pump.fun/coin/EGPX2CdYXsaUeKpuQcFkSL63RhWtWREajx5RoPRfpump" target="_blank"
         class="px-6 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold">
         Buy on Pump.fun
       </a>
@@ -109,25 +109,9 @@
     © 2025 $BARK • Meme only. No promises.
   </footer>
 
-  <!-- JS for barking effect -->
-  <script>
-    function addBark() {
-      const area = document.getElementById('barkArea');
-      const bark = document.createElement('div');
-      bark.textContent = '🐶';
-      bark.style.position = 'absolute';
-      bark.style.left = Math.random() * window.innerWidth + 'px';
-      bark.style.top = Math.random() * window.innerHeight + 'px';
-      bark.style.fontSize = '2rem';
-      bark.style.animation = 'floatUp 1.2s ease-out forwards';
-      area.appendChild(bark);
-      setTimeout(() => bark.remove(), 1200);
-    }
-  </script>
-  <!-- AUDIO: place bark.mp3 next to index.html -->
+  <!-- AUDIO with hosted bark sound -->
   <audio id="barkSound" preload="auto">
     <source src="https://soundimage.org/wp-content/uploads/2023/05/Small-Dog-Barking.mp3" type="audio/mpeg" />
-    <source src="bark.ogg" type="audio/ogg" />
   </audio>
 
   <!-- JS for barking effect -->
@@ -136,12 +120,10 @@
       const el = document.getElementById('barkSound');
       if (!el) return;
       try {
-        el.currentTime = 0; // restart if spam-clicked
+        el.currentTime = 0;
         el.volume = 0.85;
         el.play();
-      } catch (e) {
-        // ignore if autoplay policies block it
-      }
+      } catch (e) {}
     }
 
     function addBark() {
@@ -156,7 +138,6 @@
       area.appendChild(bark);
       setTimeout(() => bark.remove(), 1200);
 
-      // play sound on user gesture
       playBark();
     }
   </script>
